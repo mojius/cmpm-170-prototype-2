@@ -201,7 +201,7 @@ function initWave(formation) {
 
 function newRandWave(type = null) {
 	if (type == null) {
-		var type = rndi(1, 4)
+		type = rndi(1, 4)
 	}
 	switch(type) {
 		default:
