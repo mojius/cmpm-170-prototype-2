@@ -1,4 +1,4 @@
-title = "SPEEDY BULLETS";
+title = "SPEEDY BULLET TEST";
 
 description = `
 `;
@@ -37,7 +37,8 @@ options = {
   viewSize: {x: G.WIDTH, y: G.HEIGHT},
   isCapturing: true,
   isCapturingGameCanvasOnly: true,
-  captureCanvasScale: 2
+  captureCanvasScale: 2,
+  seed: 83
 };
 
 /**
@@ -258,6 +259,7 @@ function updateBullets() {
 		//change isColliding.rect to isColliding.char when needed
 		let enemyWallCollision = box(b.pos.x, b.pos.y, b.size, b.size).isColliding.rect.black;
 		if (b.pos.x >= G.WIDTH + 5 || enemyWallCollision || b.size <= 0) {
+      play("explosion");
 			return true;
 		}
 	});
@@ -353,13 +355,15 @@ function inputRapidCharge()
 
   if (input.isJustReleased)
   {
-
+    // play shooting sound effect
+    play("laser");
     // Charge: Disable.
 
     if (G.CHARGE_TIMER > 60)
     {
       // Shoot a big blast.
       console.log("BLAST!!!")
+      play("powerUp");
     }
 
     G.CHARGE_TIMER = 0;
