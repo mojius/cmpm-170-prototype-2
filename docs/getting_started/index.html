@@ -280,7 +280,7 @@ function updateEnemies() {
 function updateBullets() {
 	color("light_blue");
 	remove(fBullets, (b) => {
-		b.pos.x += (1.0 / (b.size + 1));
+		b.pos.x += (1.0 / (b.size + 1)) * 2;
 		//change isColliding.rect to isColliding.char when needed
 		let enemyWallCollision = box(b.pos.x, b.pos.y, b.size, b.size).isColliding.rect.black;
 		if (b.pos.x >= G.WIDTH + 5 || enemyWallCollision || b.size <= 0) {
