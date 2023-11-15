@@ -247,6 +247,10 @@ function updateEnemies() {
 		if (e.sprite == "wall") {
 			return false;
 		}
+    if (bulletCollision == true && e.sprite == "bomb") {
+      // Explosion VFX?
+      end();
+    }
 		return bulletCollision;
 	});
 	color("black");
