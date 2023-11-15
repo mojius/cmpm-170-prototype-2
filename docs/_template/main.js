@@ -111,8 +111,9 @@ let enemies;
 // Enemy formations:
 // Digit 1 represnts enemy type {1: Basic, 2: Bomb, 3: Wall}
 // Digit 2/3/4 represents the y pos in hex
-let formationWalls = [[0x3000 + 5, 0x3000 + 10, 0x3000 + 15, 0x3000 + 20, 0x3000 + 80, 0x3000 + 85, 0x3000 + 90, 0x3000 + 95], 
-[0x3000 + 35, 0x3000 + 30, 0x3000 + 25, 0x3000 + 40, 0x3000 + 45, 0x3000 + 50, 0x3000 + 55]];
+let formationWalls = [[0x3000 + 20, 0x3000 + 10, 0x3000 + 15], 
+[0x3000 + 80, 0x3000 + 85, 0x3000 + 75], 
+[0x3000 + 35, 0x3000 + 40, 0x3000 + 45]];
 let formationBasics = [[0x1000 + 20, 0x1000 + 10, 0x1000 + 60, 0x1000 + 75], 
 [0x1000 + 85, 0x1000 + 35, 0x1000 + 65, 0x1000 + 25], 
 [0x1000 + 50, 0x1000 + 40, 0x1000 + 30]];
@@ -251,6 +252,9 @@ function updateEnemies() {
       // Explosion VFX?
       end();
     }
+    if (bulletCollision) {
+      score += 10;
+    }
 		return bulletCollision;
 	});
 	color("black");
@@ -315,9 +319,9 @@ function updatePlayer()
 
 function inputRapidCharge()
 {
-  text(`timer: ${G.CHARGE_TIMER}`, 3, 8)
-  text(`pl speed: ${player.speed}`, 3, 16)
-  text(`rapid interval: ${G.RAPID_INTERVAL}`, 3, 24)
+  //text(`timer: ${G.CHARGE_TIMER}`, 3, 8)
+  //text(`pl speed: ${player.speed}`, 3, 16)
+  //text(`rapid interval: ${G.RAPID_INTERVAL}`, 3, 24)
 
 
   if (input.isJustPressed)
@@ -352,7 +356,7 @@ function inputRapidCharge()
 
     if (G.CHARGE_TIMER > 30 && player.speed >= G.SPEED_LOWER_BOUND)
     {
-      player.speed -= (G.CHARGE_DECREASE_PER_FRAME);
+      player.speed -= (G.CHARGE_DECREASE_PER_FRAME) * 2;
       console.log("Speed decreasing");
     }
   }
