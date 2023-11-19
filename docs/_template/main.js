@@ -1,4 +1,4 @@
-title = "SPEEDY BULLET TEST";
+title = "SPEEDY BULLET";
 
 description = `
 `;
@@ -19,7 +19,7 @@ const G = {
 
   UPDOWN_MARGIN: 4,
 
-  CHARGE_DECREASE_PER_FRAME: 0.01,
+  CHARGE_DECREASE_PER_FRAME: 0.05,
   RAPID_INCREASE_PER_SHOT: 0.15,
 
   SPEED_LOWER_BOUND: 0.5,
@@ -38,8 +38,11 @@ options = {
   isCapturing: true,
   isCapturingGameCanvasOnly: true,
   captureCanvasScale: 2,
-  seed: 83
+  seed: 83,
+  theme: "crt",
 };
+
+
 
 /**
  * @typedef {{
@@ -141,12 +144,44 @@ function update() {
 
 characters = [
 `
-ccc
-cccccc
-lllllllllllll
-lllllllllllll
-cccccc
-ccc
+g
+ gbb
+  gBbb
+  gggg
+ gggg
+g
+`,
+`
+
+  ppp
+pprrrp
+ pprrp
+   pp
+
+`,
+`
+lLllLl
+LLLLLL
+lllLll
+LLLLLL
+lLllLl
+LLLLLL
+`,
+`
+rrgr
+rrrgr
+ r rrr
+   rrr
+r rrr
+rrrr
+`,
+`
+   yy
+  y  r
+  LL
+ LLLL
+ LLLL
+  LL
 `
 ]
 
@@ -167,7 +202,7 @@ function initPlayer()
 
 function initStars()
 {
-  stars = times(20, () => {
+  stars = times(100, () => {
       // Random number generator function
       // rnd( min, max )
       const posX = rnd(0, G.WIDTH);
@@ -189,13 +224,13 @@ function initWave(formation) {
 		switch(enemy >> 12) {
 			default:
 			case 0x1:
-				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "basic"});
+				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "d"});
 				break;
 			case 0x2:
-				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "bomb"});
+				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "e"});
 				break;
 			case 0x3:
-				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "wall"});
+				enemies.push({pos: vec(150, (enemy & 0xFFF) + offset), sprite: "c"});
 				break;
 		}
 	});
@@ -228,31 +263,21 @@ function updateEnemies() {
 		if (e.pos.x <= 0) {
 			return true;
 		}
-		//char(e.pos.x, e.pos.y, e.sprite)
-		switch(e.sprite) {
-			case "basic":
-				color("light_red");
-				break;
-			case "bomb":
-				color("red");
-				break;
-			case "wall":
-				color("black");
-				break;
-		}
-		let playerCollision = box(e.pos.x, e.pos.y, 5,5).isColliding.char.a;
-		let bulletCollision = box(e.pos.x, e.pos.y, 5,5).isColliding.rect.light_blue;
+		
+		let playerCollision = char(e.sprite, e.pos).isColliding.char.a;
+		let bulletCollision = char(e.sprite, e.pos).isColliding.rect.purple;
 		if (playerCollision) {
 			end();
 		}
-		if (e.sprite == "wall") {
+		if (e.sprite == "c") {
 			return false;
 		}
-    if (bulletCollision == true && e.sprite == "bomb") {
-      // Explosion VFX?
+    if (bulletCollision == true && e.sprite == "e") {
       end();
     }
     if (bulletCollision) {
+      color("yellow");
+      particle(e.pos, 40, 3, 10, 360);
       score += 10;
     }
 		return bulletCollision;
@@ -261,7 +286,7 @@ function updateEnemies() {
 }
 
 function updateBullets() {
-	color("light_blue");
+	color("purple");
 	remove(fBullets, (b) => {
 		b.pos.x += (1.0 / (b.size + 1)) * 2;
 		//change isColliding.rect to isColliding.char when needed
@@ -284,7 +309,7 @@ function updateStars()
     if (s.pos.x < 0) s.pos.x = G.WIDTH;
 
     // Color to draw
-    color("green");
+    color("light_blue");
 
     box(s.pos, 1);
   });
